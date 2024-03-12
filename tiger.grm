@@ -193,7 +193,7 @@ type_fields: type_field_list            { $$ = $1; }
 type_field_list:    type_field                          { $$ = make_A_FieldList($1, NULL); }
     |               type_field_list COMMA type_field    { $$ = make_A_FieldList($3, $1); }
 
-type_field: ID COLON ID     { $$ = make_A_Field(to_E_Pos(@1), make_S_Symbol($3), make_S_Symbol($1)); }
+type_field: ID COLON ID     { $$ = make_A_Field(to_E_Pos(@1), make_S_Symbol($1), make_S_Symbol($3)); }
 
 variable_dec: VAR ID ASSIGN exp     { $$ = make_A_VarDec(to_E_Pos(@1), make_S_Symbol($2), NULL, $4); } // null for type?
     | VAR ID COLON ID ASSIGN exp    { $$ = make_A_VarDec(to_E_Pos(@1), make_S_Symbol($2), make_S_Symbol($4), $6); }

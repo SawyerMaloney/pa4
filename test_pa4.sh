@@ -4,7 +4,7 @@
 PROG=parse
 INPUT_DIR=testcases
 OUTPUT=output.txt
-EXPECTED=expected_pa4.txt
+EXPECTED=expected_pa4_linux.txt
 if [ $(uname) == "Linux" ]
 then
     EXPECTED=expected_pa4_linux.txt
