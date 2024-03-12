@@ -186,7 +186,7 @@ type: ID                                { $$ = make_A_NameType(to_E_Pos(@1), mak
     | LBRACE type_fields RBRACE         { $$ = make_A_RecordType(to_E_Pos(@1), $2); }
     | ARRAY OF ID                       { $$ = make_A_ArrayType(to_E_Pos(@1), make_S_Symbol($3)); }
 
-type_fields: type_field_list            { $$ = make_A_FieldList(NULL, $1); }
+type_fields: type_field_list            { $$ = $1; }
  // is this (and the rest of type_fields) correct? Or does it just return into type_fields correctly from type_field_list?
     | /* empty */   { $$ = NULL; }
 
