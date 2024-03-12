@@ -188,7 +188,7 @@ type: ID                                { $$ = make_A_NameType(to_E_Pos(@1), mak
 
 type_fields: type_field_list            { $$ = make_A_FieldList(NULL, $1); }
  // is this (and the rest of type_fields) correct? Or does it just return into type_fields correctly from type_field_list?
-    | /* empty */
+    | /* empty */   { $$ = NULL; }
 
 type_field_list:    type_field                          { $$ = make_A_FieldList($1, NULL); }
     |               type_field_list COMMA type_field    { $$ = make_A_FieldList($3, $1); }
