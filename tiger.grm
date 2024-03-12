@@ -1,0 +1,64 @@
+%{
+#include <stdio.h>
+#include "absyn.h"
+#include "errormsg.h"
+#include "symbol.h"
+#include "util.h"
+#include "y.tab.h"
+
+A_Exp absyn_root;
+
+int yylex();
+void yyerror(char * s);
+
+%}
+
+%define api.location.type {E_Pos};
+
+%union {
+    int ival;
+    string sval;
+    A_Var var;
+    // Etc.
+}
+
+%token <sval> ID STRING
+%token <ival> INT
+
+%token
+    COMMA COLON SEMICOLON LPAREN RPAREN LBRACK RBRACK
+    LBRACE RBRACE DOT
+    PLUS MINUS TIMES DIVIDE EQ NEQ LT LE GT GE
+    AND OR ASSIGN
+    ARRAY IF THEN ELSE WHILE FOR TO DO LET IN END OF
+    BREAK NIL
+    FUNCTION VAR TYPE
+
+%type <var> simple_var var
+// Etc.
+ 
+// Precedence rules go here, low to high.
+
+%start program
+
+%%
+
+program: exp
+
+exp: var_exp
+    ;
+
+var_exp: var
+    ;
+
+var: simple_var { $$ = $1; }
+    ;
+
+simple_var: ID { $$ = make_A_SimpleVar(@1, make_S_Symbol($1)); }
+    ;
+%%
+
+void yyerror(char *s) {
+    EM_error(yylloc, "%s", s);
+}
+

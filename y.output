@@ -1,0 +1,191 @@
+Terminals unused in grammar
+
+    STRING
+    INT
+    COMMA
+    COLON
+    SEMICOLON
+    LPAREN
+    RPAREN
+    LBRACK
+    RBRACK
+    LBRACE
+    RBRACE
+    DOT
+    PLUS
+    MINUS
+    TIMES
+    DIVIDE
+    EQ
+    NEQ
+    LT
+    LE
+    GT
+    GE
+    AND
+    OR
+    ASSIGN
+    ARRAY
+    IF
+    THEN
+    ELSE
+    WHILE
+    FOR
+    TO
+    DO
+    LET
+    IN
+    END
+    OF
+    BREAK
+    NIL
+    FUNCTION
+    VAR
+    TYPE
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: exp
+
+    2 exp: var_exp
+
+    3 var_exp: var
+
+    4 var: simple_var
+
+    5 simple_var: ID
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    ID <sval> (258) 5
+    STRING <sval> (259)
+    INT <ival> (260)
+    COMMA (261)
+    COLON (262)
+    SEMICOLON (263)
+    LPAREN (264)
+    RPAREN (265)
+    LBRACK (266)
+    RBRACK (267)
+    LBRACE (268)
+    RBRACE (269)
+    DOT (270)
+    PLUS (271)
+    MINUS (272)
+    TIMES (273)
+    DIVIDE (274)
+    EQ (275)
+    NEQ (276)
+    LT (277)
+    LE (278)
+    GT (279)
+    GE (280)
+    AND (281)
+    OR (282)
+    ASSIGN (283)
+    ARRAY (284)
+    IF (285)
+    THEN (286)
+    ELSE (287)
+    WHILE (288)
+    FOR (289)
+    TO (290)
+    DO (291)
+    LET (292)
+    IN (293)
+    END (294)
+    OF (295)
+    BREAK (296)
+    NIL (297)
+    FUNCTION (298)
+    VAR (299)
+    TYPE (300)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (46)
+        on left: 0
+    program (47)
+        on left: 1
+        on right: 0
+    exp (48)
+        on left: 2
+        on right: 1
+    var_exp (49)
+        on left: 3
+        on right: 2
+    var <var> (50)
+        on left: 4
+        on right: 3
+    simple_var <var> (51)
+        on left: 5
+        on right: 4
+
+
+State 0
+
+    0 $accept: • program $end
+
+    ID  shift, and go to state 1
+
+    program     go to state 2
+    exp         go to state 3
+    var_exp     go to state 4
+    var         go to state 5
+    simple_var  go to state 6
+
+
+State 1
+
+    5 simple_var: ID •
+
+    $default  reduce using rule 5 (simple_var)
+
+
+State 2
+
+    0 $accept: program • $end
+
+    $end  shift, and go to state 7
+
+
+State 3
+
+    1 program: exp •
+
+    $default  reduce using rule 1 (program)
+
+
+State 4
+
+    2 exp: var_exp •
+
+    $default  reduce using rule 2 (exp)
+
+
+State 5
+
+    3 var_exp: var •
+
+    $default  reduce using rule 3 (var_exp)
+
+
+State 6
+
+    4 var: simple_var •
+
+    $default  reduce using rule 4 (var)
+
+
+State 7
+
+    0 $accept: program $end •
+
+    $default  accept
