@@ -35,9 +35,8 @@ alnum [a-zA-Z0-9_]
 %%
 
 {ws}        { continue; }
+\r          { continue; }
 \n	        { ++yylineno; colnum = 1; continue; }
-\r	        { continue; }
-\t          { continue; }
 ","	        { return COMMA; }
 for 	    { return FOR; }
 let         { return LET; }
