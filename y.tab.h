@@ -96,7 +96,9 @@ extern int yydebug;
     NIL = 297,                     /* NIL  */
     FUNCTION = 298,                /* FUNCTION  */
     VAR = 299,                     /* VAR  */
-    TYPE = 300                     /* TYPE  */
+    TYPE = 300,                    /* TYPE  */
+    LOW = 301,                     /* LOW  */
+    UMINUS = 302                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -105,14 +107,27 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 18 "tiger.grm"
+#line 25 "tiger.grm"
 
+    /* int pos */
     int ival;
     string sval;
+    A_Exp exp;
     A_Var var;
-    // Etc.
+    A_Dec dec;
+    A_Type type;
+    A_ExpList explist;
+    A_DecList declist;
+    A_Field field;
+    A_FieldList fieldlist;
+    A_FunDec fundec;
+    A_FunDecList fundeclist;
+    A_TypeDec typedec;
+    A_TypeDecList typedeclist;
+    A_EField efield;
+    A_EFieldList efieldlist;
 
-#line 116 "y.tab.h"
+#line 131 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
