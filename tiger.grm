@@ -23,7 +23,6 @@ A_Exp absyn_root;
 %define api.location.type {E_Pos};
 
 %union {
-    /* int pos */
     int ival;
     string sval;
     A_Exp exp;
@@ -55,28 +54,26 @@ A_Exp absyn_root;
     FUNCTION VAR TYPE 
 
 %type <exp> program exp assign select iter func_call arith comparison boolean_exp 
-%type <var> lvalue //array also?
-%type <dec> dec variable_dec // added variable_dec
-%type <declist> dec_seq
+%type <var> lvalue
+%type <dec> dec variable_dec
+%type <declist> dec_list
 %type <fundec> function_dec
 %type <fundeclist> function_dec_list
 %type <typedec> type_dec
 %type <typedeclist> type_dec_list
 %type <type> type 
-%type <explist> exp_list exp_list_nonempty
+%type <explist> exp_list exp_list_nonempty exp_sequence
 %type <field> type_field
 %type <fieldlist> type_field_list type_fields
 %type <efield> record
 %type <efieldlist> records record_list
-/* expression sequence? */
-/* we need to go through these */
-// sawyer adding here
-%type <explist> exp_sequence // but then why does the let exp take only an exp?
 
 %nonassoc LOW
+%nonassoc ID
 %nonassoc DO OF
 %nonassoc THEN 
 %nonassoc ELSE
+%nonassoc LBRACK
 %nonassoc ASSIGN
 %left SEMICOLON
 %left OR
@@ -91,7 +88,6 @@ A_Exp absyn_root;
 
 %%
 
-/* E_Pos should all be switched to to_E_Pos(@#) */
 program: exp { absyn_root = $1; }
 
 exp:  INT               { $$ = make_A_IntExp(to_E_Pos(@1), $1); }     
@@ -107,11 +103,11 @@ exp:  INT               { $$ = make_A_IntExp(to_E_Pos(@1), $1); }
     | comparison        { $$ = $1; }
     | boolean_exp       { $$ = $1; }
     | MINUS exp %prec UMINUS            { $$ = make_A_OpExp(to_E_Pos(@1), A_MINUS_OP, make_A_IntExp(to_E_Pos(@1), 0), $2); }
-    | ID LBRACE records RBRACE          { $$ = make_A_RecordExp(to_E_Pos(@1), make_S_Symbol($1), $3); } // do we have to call something else on this?
-    | ID LBRACK exp RBRACK OF exp       { $$ = make_A_ArrayExp(to_E_Pos(@1), make_S_Symbol($1), $3, $6); } // added make_
+    | ID LBRACE records RBRACE          { $$ = make_A_RecordExp(to_E_Pos(@1), make_S_Symbol($1), $3); } 
+    | ID LBRACK exp RBRACK OF exp       { $$ = make_A_ArrayExp(to_E_Pos(@1), make_S_Symbol($1), $3, $6); } 
     | LPAREN RPAREN                     { $$ = make_A_SeqExp(to_E_Pos(@1), NULL); } 
     | LPAREN exp_sequence RPAREN        { $$ = make_A_SeqExp(to_E_Pos(@1), $2); }
-    | LET dec_seq IN exp_sequence END   { $$ = make_A_LetExp(to_E_Pos(@1), $2, make_A_SeqExp(to_E_Pos(@1), $4)); }  
+    | LET dec_list IN exp_sequence END  { $$ = make_A_LetExp(to_E_Pos(@1), $2, make_A_SeqExp(to_E_Pos(@1), $4)); }  
 
 lvalue: ID                      { $$ = make_A_SimpleVar(to_E_Pos(@1), make_S_Symbol($1)); }
     | ID LBRACK exp RBRACK      { $$ = make_A_SubscriptVar(to_E_Pos(@1), make_A_SimpleVar(to_E_Pos(@1), make_S_Symbol($1)), $3); }
@@ -162,44 +158,40 @@ comparison: exp EQ exp    { $$ = make_A_OpExp(to_E_Pos(@1), A_EQ_OP, $1, $3); }
     | exp LT exp    { $$ = make_A_OpExp(to_E_Pos(@1), A_LT_OP, $1, $3); }
     | exp GE exp    { $$ = make_A_OpExp(to_E_Pos(@1), A_GE_OP, $1, $3); }
     | exp LE exp    { $$ = make_A_OpExp(to_E_Pos(@1), A_LE_OP, $1, $3); }
+    | exp LT GT exp { $$ = make_A_OpExp(to_E_Pos(@1), A_NEQ_OP, $1, $4); }
 
-
-/* This is where I start becoming less certain */
-dec_seq: dec_seq dec        { $$ = make_A_DecList($2, $1); }
-    | /* empty */           { $$ = NULL; }
+dec_list: dec dec_list   { $$ = make_A_DecList($1, $2); }
+    | /* empty */        { $$ = NULL; }
 
 dec: type_dec_list       { $$ = make_A_TypeDecGroup(to_E_Pos(@1), $1); }
     | variable_dec       { $$ = $1; }
     | function_dec_list  { $$ = make_A_FunctionDecGroup(to_E_Pos(@1), $1); }
-/* call make_group functions from here */
-
 
 function_dec_list:  function_dec %prec LOW   { $$ = make_A_FunDecList($1, NULL); } // low prec, don't want this one chosen
-    |   function_dec function_dec_list       { $$ = make_A_FunDecList($1, $2); }
+    | function_dec function_dec_list         { $$ = make_A_FunDecList($1, $2); }
+
+function_dec: FUNCTION ID LPAREN type_fields RPAREN EQ exp  { $$ = make_A_FunDec(to_E_Pos(@1), make_S_Symbol($2), $4, NULL, $7); }
+    | FUNCTION ID LPAREN type_fields RPAREN COLON ID EQ exp { $$ = make_A_FunDec(to_E_Pos(@1), make_S_Symbol($2), $4, make_S_Symbol($7), $9); }
+
+type_dec_list:  type_dec %prec LOW      { $$ = make_A_TypeDecList($1, NULL); }
+    | type_dec type_dec_list            { $$ = make_A_TypeDecList($1, $2); }
 
 type_dec: TYPE ID EQ type               { $$ = make_A_TypeDec(make_S_Symbol($2), $4); }
-
-type_dec_list:  type_dec                { $$ = make_A_TypeDecList($1, NULL); }
-    |           type_dec type_dec_list  { $$ = make_A_TypeDecList($1, $2); }
 
 type: ID                                { $$ = make_A_NameType(to_E_Pos(@1), make_S_Symbol($1)); }
     | LBRACE type_fields RBRACE         { $$ = make_A_RecordType(to_E_Pos(@1), $2); }
     | ARRAY OF ID                       { $$ = make_A_ArrayType(to_E_Pos(@1), make_S_Symbol($3)); }
 
-type_fields: type_field_list            { $$ = $1; }
- // is this (and the rest of type_fields) correct? Or does it just return into type_fields correctly from type_field_list?
-    | /* empty */   { $$ = NULL; }
+type_fields: type_field_list    { $$ = $1; }
+    | /* empty */               { $$ = NULL; }
 
 type_field_list:    type_field                          { $$ = make_A_FieldList($1, NULL); }
     |               type_field_list COMMA type_field    { $$ = make_A_FieldList($3, $1); }
 
 type_field: ID COLON ID     { $$ = make_A_Field(to_E_Pos(@1), make_S_Symbol($1), make_S_Symbol($3)); }
 
-variable_dec: VAR ID ASSIGN exp     { $$ = make_A_VarDec(to_E_Pos(@1), make_S_Symbol($2), NULL, $4); } // null for type?
+variable_dec: VAR ID ASSIGN exp     { $$ = make_A_VarDec(to_E_Pos(@1), make_S_Symbol($2), NULL, $4); }
     | VAR ID COLON ID ASSIGN exp    { $$ = make_A_VarDec(to_E_Pos(@1), make_S_Symbol($2), make_S_Symbol($4), $6); }
-
-function_dec: FUNCTION ID LPAREN type_fields RPAREN EQ exp  { $$ = make_A_FunDec(to_E_Pos(@1), make_S_Symbol($2), $4, NULL, $7); }
-    | FUNCTION ID LPAREN type_fields RPAREN COLON ID EQ exp { $$ = make_A_FunDec(to_E_Pos(@1), make_S_Symbol($2), $4, make_S_Symbol($7), $9); } // is this correct?
 
 %%
 
