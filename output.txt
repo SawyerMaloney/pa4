@@ -305,11 +305,42 @@ Parsing successful!
                    varExp(
                     simpleVar(i)),
                    intExp(0)),
-                  opExp(
-                   GREATER,
-                   varExp(
-                    simpleVar(i)),
-                   intExp(0)))),
+                  seqExp(
+                   expList(
+                    callExp(f,
+                     expList(
+                      opExp(
+                       DIVIDE,
+                       varExp(
+                        simpleVar(i)),
+                       intExp(10)),
+                      expList())),
+                    expList(
+                     callExp(print,
+                      expList(
+                       callExp(chr,
+                        expList(
+                         opExp(
+                          PLUS,
+                          opExp(
+                           MINUS,
+                           varExp(
+                            simpleVar(i)),
+                           opExp(
+                            TIMES,
+                            opExp(
+                             DIVIDE,
+                             varExp(
+                              simpleVar(i)),
+                             intExp(10)),
+                            intExp(10))),
+                          callExp(ord,
+                           expList(
+                            stringExp(0),
+                            expList()))),
+                         expList())),
+                       expList())),
+                     expList()))))),
                 funDecList())),
               decList()),
              seqExp(
@@ -601,19 +632,16 @@ Parsing successful!
                         simpleVar(c))))),
                     intExp(0)),
                    intExp(0)),
-                  iffExp(
-                   iffExp(
-                    opExp(
-                     EQUAL,
-                     varExp(
-                      subscriptVar(
-                       simpleVar(row),
-                       varExp(
-                        simpleVar(r)))),
-                     intExp(0)),
-                    opExp(
-                     EQUAL,
-                     varExp(
+                  seqExp(
+                   expList(
+                    assignExp(
+                     subscriptVar(
+                      simpleVar(row),
+                      varExp(
+                       simpleVar(r))),
+                     intExp(1)),
+                    expList(
+                     assignExp(
                       subscriptVar(
                        simpleVar(diag1),
                        opExp(
@@ -621,25 +649,72 @@ Parsing successful!
                         varExp(
                          simpleVar(r)),
                         varExp(
-                         simpleVar(c))))),
-                     intExp(0)),
-                    intExp(0)),
-                   opExp(
-                    EQUAL,
-                    varExp(
-                     subscriptVar(
-                      simpleVar(diag2),
-                      opExp(
-                       MINUS,
-                       opExp(
-                        PLUS,
+                         simpleVar(c)))),
+                      intExp(1)),
+                     expList(
+                      assignExp(
+                       subscriptVar(
+                        simpleVar(diag2),
+                        opExp(
+                         MINUS,
+                         opExp(
+                          PLUS,
+                          varExp(
+                           simpleVar(r)),
+                          intExp(7)),
+                         varExp(
+                          simpleVar(c)))),
+                       intExp(1)),
+                      expList(
+                       assignExp(
+                        subscriptVar(
+                         simpleVar(col),
+                         varExp(
+                          simpleVar(c))),
                         varExp(
-                         simpleVar(r)),
-                        intExp(7)),
-                       varExp(
-                        simpleVar(c))))),
-                    intExp(0)),
-                   intExp(0))),
+                         simpleVar(r))),
+                       expList(
+                        callExp(try,
+                         expList(
+                          opExp(
+                           PLUS,
+                           varExp(
+                            simpleVar(c)),
+                           intExp(1)),
+                          expList())),
+                        expList(
+                         assignExp(
+                          subscriptVar(
+                           simpleVar(row),
+                           varExp(
+                            simpleVar(r))),
+                          intExp(0)),
+                         expList(
+                          assignExp(
+                           subscriptVar(
+                            simpleVar(diag1),
+                            opExp(
+                             PLUS,
+                             varExp(
+                              simpleVar(r)),
+                             varExp(
+                              simpleVar(c)))),
+                           intExp(0)),
+                          expList(
+                           assignExp(
+                            subscriptVar(
+                             simpleVar(diag2),
+                             opExp(
+                              MINUS,
+                              opExp(
+                               PLUS,
+                               varExp(
+                                simpleVar(r)),
+                               intExp(7)),
+                              varExp(
+                               simpleVar(c)))),
+                            intExp(0)),
+                           expList())))))))))),
                  TRUE)),
                expList()))),
             funDecList()))),
@@ -790,7 +865,7 @@ testcases/test15.tig
 Parsing successful!
  iffExp(
   intExp(20),
-  intExp(20))
+  intExp(3))
 testcases/test16.tig
 Parsing successful!
  letExp(

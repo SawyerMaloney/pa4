@@ -124,7 +124,7 @@ arith: exp PLUS exp   { $$ = make_A_OpExp(to_E_Pos(@1), A_PLUS_OP, $1, $3); }
     | exp DIVIDE exp  { $$ = make_A_OpExp(to_E_Pos(@1), A_DIVIDE_OP, $1, $3); }
 
 select: IF exp THEN exp ELSE exp { $$ = make_A_IfExp(to_E_Pos(@1), $2, $4, $6); }
-    | IF exp THEN exp            { $$ = make_A_IfExp(to_E_Pos(@1), $2, $2, NULL); }
+    | IF exp THEN exp            { $$ = make_A_IfExp(to_E_Pos(@1), $2, $4, NULL); }
 
     /* See end of chapter 4 */
 boolean_exp: exp AND exp { $$ = make_A_IfExp(to_E_Pos(@1), $1, $3, make_A_IntExp(to_E_Pos(@1), 0)); }
