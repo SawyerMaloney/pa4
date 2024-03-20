@@ -92,21 +92,26 @@ Parsing successful!
            decList())),
          seqExp(
           expList(
-           varExp(
-            simpleVar(i)),
+           callExp(skipto,
+            expList()),
            expList(
-            whileExp(
+            assignExp(
+             fieldVar(
+              simpleVar(any),
+              any),
              callExp(isdigit,
               expList(
                varExp(
                 simpleVar(buffer)),
-               expList())),
-             seqExp(
-              expList(
-               assignExp(
-                simpleVar(buffer),
-                callExp(getchar,
-                 expList())),
+               expList()))),
+            expList(
+             whileExp(
+              callExp(isdigit,
+               expList(
+                varExp(
+                 simpleVar(buffer)),
+                expList())),
+              seqExp(
                expList(
                 assignExp(
                  simpleVar(i),
@@ -128,21 +133,16 @@ Parsing successful!
                    expList(
                     stringExp(0),
                     expList())))),
-                expList()))))
+                expList(
+                 assignExp(
+                  simpleVar(buffer),
+                  callExp(getchar,
+                   expList())),
+                 expList()))))
 ,
-            expList(
-             assignExp(
-              fieldVar(
-               simpleVar(any),
-               any),
-              callExp(isdigit,
-               expList(
-                varExp(
-                 simpleVar(buffer)),
-                expList()))),
              expList(
-              callExp(skipto,
-               expList()),
+              varExp(
+               simpleVar(i)),
               expList()))))))),
        funDecList())),
      decList(
@@ -151,12 +151,12 @@ Parsing successful!
         typeDec(list,
          recordType(
           fieldList(
-           field(rest,
-            list,
+           field(first,
+            int,
             TRUE),
            fieldList(
-            field(first,
-             int,
+            field(rest,
+             list,
              TRUE),
             fieldList())))),
         typeDecList())),
@@ -193,24 +193,24 @@ Parsing successful!
                 any)),
               recordExp(list,
                efieldList(
-                efield(rest,
-                 callExp(readlist,
-                  expList())),
+                efield(first,
+                 varExp(
+                  simpleVar(i))),
                 efieldList(
-                 efield(first,
-                  varExp(
-                   simpleVar(i))),
+                 efield(rest,
+                  callExp(readlist,
+                   expList())),
                  efieldList()))),
               nilExp()),
              expList())))),
          funDecList(
           funDec(merge,
            fieldList(
-            field(b,
+            field(a,
              list,
              TRUE),
             fieldList(
-             field(a,
+             field(b,
               list,
               TRUE),
              fieldList())),
@@ -244,43 +244,43 @@ Parsing successful!
                  first))),
               recordExp(list,
                efieldList(
-                efield(rest,
-                 callExp(merge,
-                  expList(
-                   varExp(
-                    simpleVar(b)),
+                efield(first,
+                 varExp(
+                  fieldVar(
+                   simpleVar(a),
+                   first))),
+                efieldList(
+                 efield(rest,
+                  callExp(merge,
                    expList(
                     varExp(
                      fieldVar(
                       simpleVar(a),
                       rest)),
-                    expList())))),
-                efieldList(
-                 efield(first,
-                  varExp(
-                   fieldVar(
-                    simpleVar(a),
-                    first))),
+                    expList(
+                     varExp(
+                      simpleVar(b)),
+                     expList())))),
                  efieldList()))),
               recordExp(list,
                efieldList(
-                efield(rest,
-                 callExp(merge,
-                  expList(
-                   varExp(
-                    fieldVar(
-                     simpleVar(b),
-                     rest)),
+                efield(first,
+                 varExp(
+                  fieldVar(
+                   simpleVar(b),
+                   first))),
+                efieldList(
+                 efield(rest,
+                  callExp(merge,
                    expList(
                     varExp(
                      simpleVar(a)),
-                    expList())))),
-                efieldList(
-                 efield(first,
-                  varExp(
-                   fieldVar(
-                    simpleVar(b),
-                    first))),
+                    expList(
+                     varExp(
+                      fieldVar(
+                       simpleVar(b),
+                       rest)),
+                     expList())))),
                  efieldList()))))))),
           funDecList(
            funDec(printint,
@@ -322,18 +322,18 @@ Parsing successful!
                  intExp(0)),
                 seqExp(
                  expList(
-                  callExp(f,
+                  callExp(print,
                    expList(
-                    opExp(
-                     MINUS,
-                     intExp(0),
-                     varExp(
-                      simpleVar(i))),
+                    stringExp(-),
                     expList())),
                   expList(
-                   callExp(print,
+                   callExp(f,
                     expList(
-                     stringExp(-),
+                     opExp(
+                      MINUS,
+                      intExp(0),
+                      varExp(
+                       simpleVar(i))),
                      expList())),
                    expList()))),
                 iffExp(
@@ -372,12 +372,12 @@ Parsing successful!
                 expList())),
               seqExp(
                expList(
-                callExp(printlist,
+                callExp(printint,
                  expList(
                   varExp(
                    fieldVar(
                     simpleVar(l),
-                    rest)),
+                    first)),
                   expList())),
                 expList(
                  callExp(print,
@@ -385,12 +385,12 @@ Parsing successful!
                    stringExp( ),
                    expList())),
                  expList(
-                  callExp(printint,
+                  callExp(printlist,
                    expList(
                     varExp(
                      fieldVar(
                       simpleVar(l),
-                      first)),
+                      rest)),
                     expList())),
                   expList())))))),
             funDecList()))))),
@@ -403,13 +403,13 @@ Parsing successful!
          varDec(list2,
           seqExp(
            expList(
-            callExp(readlist,
-             expList()),
+            assignExp(
+             simpleVar(buffer),
+             callExp(getchar,
+              expList())),
             expList(
-             assignExp(
-              simpleVar(buffer),
-              callExp(getchar,
-               expList())),
+             callExp(readlist,
+              expList()),
              expList()))),
           TRUE),
          decList()))))))),
@@ -420,10 +420,10 @@ Parsing successful!
       callExp(merge,
        expList(
         varExp(
-         simpleVar(list2)),
+         simpleVar(list1)),
         expList(
          varExp(
-          simpleVar(list1)),
+          simpleVar(list2)),
          expList()))),
       expList())),
     expList())))
@@ -489,52 +489,52 @@ Parsing successful!
             fieldList(),
             seqExp(
              expList(
-              callExp(print,
-               expList(
-                stringExp(
-),
-                expList())),
-              expList(
-               forExp(i,
-                intExp(0),
-                opExp(
-                 MINUS,
-                 varExp(
-                  simpleVar(N)),
-                 intExp(1)),
-                seqExp(
+              forExp(i,
+               intExp(0),
+               opExp(
+                MINUS,
+                varExp(
+                 simpleVar(N)),
+                intExp(1)),
+               seqExp(
+                expList(
+                 forExp(j,
+                  intExp(0),
+                  opExp(
+                   MINUS,
+                   varExp(
+                    simpleVar(N)),
+                   intExp(1)),
+                  callExp(print,
+                   expList(
+                    iffExp(
+                     opExp(
+                      EQUAL,
+                      varExp(
+                       subscriptVar(
+                        simpleVar(col),
+                        varExp(
+                         simpleVar(i)))),
+                      varExp(
+                       simpleVar(j))),
+                     stringExp( O),
+                     stringExp( .)),
+                    expList())),
+                  TRUE),
                  expList(
                   callExp(print,
                    expList(
                     stringExp(
 ),
                     expList())),
-                  expList(
-                   forExp(j,
-                    intExp(0),
-                    opExp(
-                     MINUS,
-                     varExp(
-                      simpleVar(N)),
-                     intExp(1)),
-                    callExp(print,
-                     expList(
-                      iffExp(
-                       opExp(
-                        EQUAL,
-                        varExp(
-                         subscriptVar(
-                          simpleVar(col),
-                          varExp(
-                           simpleVar(i)))),
-                        varExp(
-                         simpleVar(j))),
-                       stringExp( O),
-                       stringExp( .)),
-                      expList())),
-                    TRUE),
-                   expList()))),
-                TRUE),
+                  expList()))),
+               TRUE),
+              expList(
+               callExp(print,
+                expList(
+                 stringExp(
+),
+                 expList())),
                expList())))),
            funDecList(
             funDec(try,
@@ -716,16 +716,16 @@ Parsing successful!
      intExp(100),
      seqExp(
       expList(
-       seqExp(
-        expList()),
+       assignExp(
+        simpleVar(a),
+        opExp(
+         PLUS,
+         varExp(
+          simpleVar(a)),
+         intExp(1))),
        expList(
-        assignExp(
-         simpleVar(a),
-         opExp(
-          PLUS,
-          varExp(
-           simpleVar(a)),
-          intExp(1))),
+        seqExp(
+         expList()),
         expList()))),
      TRUE),
     expList())))
@@ -747,12 +747,12 @@ Parsing successful!
       typeDec(rectype,
        recordType(
         fieldList(
-         field(id,
-          int,
+         field(name,
+          string,
           TRUE),
          fieldList(
-          field(name,
-           string,
+          field(id,
+           int,
            TRUE),
           fieldList())))),
       typeDecList()))),
@@ -760,11 +760,11 @@ Parsing successful!
     varDec(rec,
      recordExp(rectype,
       efieldList(
-       efield(id,
-        intExp(0)),
+       efield(name,
+        stringExp(aname)),
        efieldList(
-        efield(name,
-         stringExp(aname)),
+        efield(id,
+         intExp(0)),
         efieldList()))),
      TRUE),
     decList(
@@ -823,12 +823,12 @@ Parsing successful!
      typeDec(tree,
       recordType(
        fieldList(
-        field(children,
-         treelist,
+        field(key,
+         int,
          TRUE),
         fieldList(
-         field(key,
-          int,
+         field(children,
+          treelist,
           TRUE),
          fieldList())))),
      typeDecList())),
@@ -843,12 +843,12 @@ Parsing successful!
        typeDec(treelist,
         recordType(
          fieldList(
-          field(tl,
-           treelist,
+          field(hd,
+           tree,
            TRUE),
           fieldList(
-           field(hd,
-            tree,
+           field(tl,
+            treelist,
             TRUE),
            fieldList())))),
        typeDecList())),
@@ -866,27 +866,27 @@ Parsing successful!
     funDecList(
      funDec(do_nothing1,
       fieldList(
-       field(b,
-        string,
+       field(a,
+        int,
         TRUE),
        fieldList(
-        field(a,
-         int,
+        field(b,
+         string,
          TRUE),
         fieldList())),
       int,
       seqExp(
        expList(
-        intExp(0),
+        callExp(do_nothing2,
+         expList(
+          opExp(
+           PLUS,
+           varExp(
+            simpleVar(a)),
+           intExp(1)),
+          expList())),
         expList(
-         callExp(do_nothing2,
-          expList(
-           opExp(
-            PLUS,
-            varExp(
-             simpleVar(a)),
-            intExp(1)),
-           expList())),
+         intExp(0),
          expList())))),
      funDecList())),
    decList(
@@ -905,15 +905,15 @@ Parsing successful!
         string,
         seqExp(
          expList(
-          stringExp( ),
-          expList(
-           callExp(do_nothing1,
+          callExp(do_nothing1,
+           expList(
+            varExp(
+             simpleVar(d)),
             expList(
              stringExp(str),
-             expList(
-              varExp(
-               simpleVar(d)),
-              expList()))),
+             expList()))),
+          expList(
+           stringExp( ),
            expList())))),
        funDecList())),
      decList()))),
@@ -921,9 +921,9 @@ Parsing successful!
    expList(
     callExp(do_nothing1,
      expList(
-      stringExp(str2),
+      intExp(0),
       expList(
-       intExp(0),
+       stringExp(str2),
        expList()))),
     expList())))
 testcases/test19.tig
@@ -934,27 +934,27 @@ Parsing successful!
     funDecList(
      funDec(do_nothing1,
       fieldList(
-       field(b,
-        string,
+       field(a,
+        int,
         TRUE),
        fieldList(
-        field(a,
-         int,
+        field(b,
+         string,
          TRUE),
         fieldList())),
       int,
       seqExp(
        expList(
-        intExp(0),
+        callExp(do_nothing2,
+         expList(
+          opExp(
+           PLUS,
+           varExp(
+            simpleVar(a)),
+           intExp(1)),
+          expList())),
         expList(
-         callExp(do_nothing2,
-          expList(
-           opExp(
-            PLUS,
-            varExp(
-             simpleVar(a)),
-            intExp(1)),
-           expList())),
+         intExp(0),
          expList())))),
      funDecList(
       funDec(do_nothing2,
@@ -966,15 +966,15 @@ Parsing successful!
        string,
        seqExp(
         expList(
-         stringExp( ),
-         expList(
-          callExp(do_nothing1,
+         callExp(do_nothing1,
+          expList(
+           varExp(
+            simpleVar(a)),
            expList(
             stringExp(str),
-            expList(
-             varExp(
-              simpleVar(a)),
-             expList()))),
+            expList()))),
+         expList(
+          stringExp( ),
           expList())))),
       funDecList()))),
    decList()),
@@ -982,9 +982,9 @@ Parsing successful!
    expList(
     callExp(do_nothing1,
      expList(
-      stringExp(str2),
+      intExp(0),
       expList(
-       intExp(0),
+       stringExp(str2),
        expList()))),
     expList())))
 testcases/test2.tig
@@ -1021,14 +1021,14 @@ Parsing successful!
    intExp(5)),
   seqExp(
    expList(
-    seqExp(
-     expList()),
+    opExp(
+     PLUS,
+     varExp(
+      simpleVar(i)),
+     intExp(1)),
     expList(
-     opExp(
-      PLUS,
-      varExp(
-       simpleVar(i)),
-      intExp(1)),
+     seqExp(
+      expList()),
      expList()))))
 
 testcases/test21.tig
@@ -1080,12 +1080,12 @@ Parsing successful!
      typeDec(rectype,
       recordType(
        fieldList(
-        field(id,
-         int,
+        field(name,
+         string,
          TRUE),
         fieldList(
-         field(name,
-          string,
+         field(id,
+          int,
           TRUE),
          fieldList())))),
      typeDecList())),
@@ -1093,11 +1093,11 @@ Parsing successful!
     varDec(rec1,
      recordExp(rectype,
       efieldList(
-       efield(id,
-        intExp(0)),
+       efield(name,
+        stringExp(Name)),
        efieldList(
-        efield(name,
-         stringExp(Name)),
+        efield(id,
+         intExp(0)),
         efieldList()))),
      TRUE),
     decList())),
@@ -1118,12 +1118,12 @@ Parsing successful!
      typeDec(rectype,
       recordType(
        fieldList(
-        field(id,
-         int,
+        field(name,
+         string,
          TRUE),
         fieldList(
-         field(name,
-          string,
+         field(id,
+          int,
           TRUE),
          fieldList())))),
      typeDecList())),
@@ -1131,11 +1131,11 @@ Parsing successful!
     varDec(rec1,
      recordExp(rectype,
       efieldList(
-       efield(id,
-        intExp(0)),
+       efield(name,
+        stringExp(aname)),
        efieldList(
-        efield(name,
-         stringExp(aname)),
+        efield(id,
+         intExp(0)),
         efieldList()))),
      TRUE),
     decList())),
@@ -1144,14 +1144,14 @@ Parsing successful!
     assignExp(
      fieldVar(
       simpleVar(rec1),
-      id),
-     stringExp()),
+      name),
+     intExp(3)),
     expList(
      assignExp(
       fieldVar(
        simpleVar(rec1),
-       name),
-      intExp(3)),
+       id),
+      stringExp()),
      expList()))))
 testcases/test24.tig
 Parsing successful!
@@ -1226,24 +1226,24 @@ Parsing successful!
      typeDec(rectype1,
       recordType(
        fieldList(
-        field(id,
-         int,
+        field(name,
+         string,
          TRUE),
         fieldList(
-         field(name,
-          string,
+         field(id,
+          int,
           TRUE),
          fieldList())))),
      typeDecList(
       typeDec(rectype2,
        recordType(
         fieldList(
-         field(id,
-          int,
+         field(name,
+          string,
           TRUE),
          fieldList(
-          field(name,
-           string,
+          field(id,
+           int,
            TRUE),
           fieldList())))),
       typeDecList()))),
@@ -1252,11 +1252,11 @@ Parsing successful!
      rectype1,
      recordExp(rectype2,
       efieldList(
-       efield(id,
-        intExp(0)),
+       efield(name,
+        stringExp(Name)),
        efieldList(
-        efield(name,
-         stringExp(Name)),
+        efield(id,
+         intExp(0)),
         efieldList()))),
      TRUE),
     decList())),
@@ -1299,12 +1299,12 @@ Parsing successful!
      typeDec(rectype,
       recordType(
        fieldList(
-        field(age,
-         int,
+        field(name,
+         string,
          TRUE),
         fieldList(
-         field(name,
-          string,
+         field(age,
+          int,
           TRUE),
          fieldList())))),
      typeDecList())),
@@ -1313,24 +1313,24 @@ Parsing successful!
      rectype,
      recordExp(rectype,
       efieldList(
-       efield(age,
-        intExp(1000)),
+       efield(name,
+        stringExp(Nobody)),
        efieldList(
-        efield(name,
-         stringExp(Nobody)),
+        efield(age,
+         intExp(1000)),
         efieldList()))),
      TRUE),
     decList())),
   seqExp(
    expList(
-    varExp(
-     simpleVar(rec1)),
+    assignExp(
+     fieldVar(
+      simpleVar(rec1),
+      name),
+     stringExp(Somebody)),
     expList(
-     assignExp(
-      fieldVar(
-       simpleVar(rec1),
-       name),
-      stringExp(Somebody)),
+     varExp(
+      simpleVar(rec1)),
      expList()))))
 testcases/test30.tig
 Parsing successful!
@@ -1414,12 +1414,12 @@ Parsing successful!
     funDecList(
      funDec(g,
       fieldList(
-       field(b,
-        string,
+       field(a,
+        int,
         TRUE),
        fieldList(
-        field(a,
-         int,
+        field(b,
+         string,
          TRUE),
         fieldList())),
       int,
@@ -1431,9 +1431,9 @@ Parsing successful!
    expList(
     callExp(g,
      expList(
-      stringExp(two),
+      stringExp(one),
       expList(
-       stringExp(one),
+       stringExp(two),
        expList()))),
     expList())))
 testcases/test35.tig
@@ -1444,12 +1444,12 @@ Parsing successful!
     funDecList(
      funDec(g,
       fieldList(
-       field(b,
-        string,
+       field(a,
+        int,
         TRUE),
        fieldList(
-        field(a,
-         int,
+        field(b,
+         string,
          TRUE),
         fieldList())),
       int,
@@ -1472,12 +1472,12 @@ Parsing successful!
     funDecList(
      funDec(g,
       fieldList(
-       field(b,
-        string,
+       field(a,
+        int,
         TRUE),
        fieldList(
-        field(a,
-         int,
+        field(b,
+         string,
          TRUE),
         fieldList())),
       int,
@@ -1489,11 +1489,11 @@ Parsing successful!
    expList(
     callExp(g,
      expList(
-      intExp(5),
+      intExp(3),
       expList(
        stringExp(one),
        expList(
-        intExp(3),
+        intExp(5),
         expList())))),
     expList())))
 testcases/test37.tig
@@ -1661,20 +1661,20 @@ Parsing successful!
       typeDec(rectype1,
        recordType(
         fieldList(
-         field(age,
-          int,
+         field(name,
+          string,
           TRUE),
          fieldList(
-          field(id,
-           int,
+          field(address,
+           string,
            TRUE),
           fieldList(
-           field(address,
-            string,
+           field(id,
+            int,
             TRUE),
            fieldList(
-            field(name,
-             string,
+            field(age,
+             int,
              TRUE),
             fieldList())))))),
       typeDecList(
@@ -1684,12 +1684,12 @@ Parsing successful!
         typeDec(rectype2,
          recordType(
           fieldList(
-           field(dates,
-            arrtype1,
+           field(name,
+            string,
             TRUE),
            fieldList(
-            field(name,
-             string,
+            field(dates,
+             arrtype1,
              TRUE),
             fieldList())))),
         typeDecList(
@@ -1708,17 +1708,17 @@ Parsing successful!
        intExp(5),
        recordExp(rectype1,
         efieldList(
-         efield(age,
-          intExp(0)),
+         efield(name,
+          stringExp(aname)),
          efieldList(
-          efield(id,
-           intExp(0)),
+          efield(address,
+           stringExp(somewhere)),
           efieldList(
-           efield(address,
-            stringExp(somewhere)),
+           efield(id,
+            intExp(0)),
            efieldList(
-            efield(name,
-             stringExp(aname)),
+            efield(age,
+             intExp(0)),
             efieldList())))))),
       TRUE),
      decList(
@@ -1732,30 +1732,30 @@ Parsing successful!
        varDec(rec1,
         recordExp(rectype1,
          efieldList(
-          efield(age,
-           intExp(44)),
+          efield(name,
+           stringExp(Kapoios)),
           efieldList(
-           efield(id,
-            intExp(2432)),
+           efield(address,
+            stringExp(Kapou)),
            efieldList(
-            efield(address,
-             stringExp(Kapou)),
+            efield(id,
+             intExp(2432)),
             efieldList(
-             efield(name,
-              stringExp(Kapoios)),
+             efield(age,
+              intExp(44)),
              efieldList()))))),
         TRUE),
        decList(
         varDec(rec2,
          recordExp(rectype2,
           efieldList(
-           efield(dates,
-            arrayExp(arrtype1,
-             intExp(3),
-             intExp(1900))),
+           efield(name,
+            stringExp(Allos)),
            efieldList(
-            efield(name,
-             stringExp(Allos)),
+            efield(dates,
+             arrayExp(arrtype1,
+              intExp(3),
+              intExp(1900))),
             efieldList()))),
          TRUE),
         decList())))))),
@@ -1763,59 +1763,59 @@ Parsing successful!
    expList(
     assignExp(
      subscriptVar(
-      fieldVar(
-       simpleVar(rec2),
-       dates),
-      intExp(2)),
-     intExp(2323)),
+      simpleVar(arr1),
+      intExp(0)),
+     intExp(1)),
     expList(
      assignExp(
       subscriptVar(
-       fieldVar(
-        simpleVar(rec2),
-        dates),
-       intExp(0)),
-      intExp(2323)),
+       simpleVar(arr1),
+       intExp(9)),
+      intExp(3)),
      expList(
       assignExp(
        fieldVar(
-        simpleVar(rec1),
+        subscriptVar(
+         simpleVar(arr2),
+         intExp(3)),
         name),
-       stringExp(sdf)),
+       stringExp(kati)),
       expList(
        assignExp(
-        subscriptVar(
-         simpleVar(arr3),
-         intExp(34)),
-        stringExp(sfd)),
+        fieldVar(
+         subscriptVar(
+          simpleVar(arr2),
+          intExp(1)),
+         age),
+        intExp(23)),
        expList(
         assignExp(
-         fieldVar(
-          subscriptVar(
-           simpleVar(arr2),
-           intExp(1)),
-          age),
-         intExp(23)),
+         subscriptVar(
+          simpleVar(arr3),
+          intExp(34)),
+         stringExp(sfd)),
         expList(
          assignExp(
           fieldVar(
-           subscriptVar(
-            simpleVar(arr2),
-            intExp(3)),
+           simpleVar(rec1),
            name),
-          stringExp(kati)),
+          stringExp(sdf)),
          expList(
           assignExp(
            subscriptVar(
-            simpleVar(arr1),
-            intExp(9)),
-           intExp(3)),
+            fieldVar(
+             simpleVar(rec2),
+             dates),
+            intExp(0)),
+           intExp(2323)),
           expList(
            assignExp(
             subscriptVar(
-             simpleVar(arr1),
-             intExp(0)),
-            intExp(1)),
+             fieldVar(
+              simpleVar(rec2),
+              dates),
+             intExp(2)),
+            intExp(2323)),
            expList()))))))))))
 testcases/test43.tig
 Parsing successful!
@@ -1843,12 +1843,12 @@ Parsing successful!
      typeDec(rectype,
       recordType(
        fieldList(
-        field(id,
-         int,
+        field(name,
+         string,
          TRUE),
         fieldList(
-         field(name,
-          string,
+         field(id,
+          int,
           TRUE),
          fieldList())))),
      typeDecList())),
@@ -1873,12 +1873,12 @@ Parsing successful!
      typeDec(rectype,
       recordType(
        fieldList(
-        field(id,
-         int,
+        field(name,
+         string,
          TRUE),
         fieldList(
-         field(name,
-          string,
+         field(id,
+          int,
           TRUE),
          fieldList())))),
      typeDecList())),
@@ -1901,12 +1901,12 @@ Parsing successful!
      typeDec(rectype,
       recordType(
        fieldList(
-        field(id,
-         int,
+        field(name,
+         string,
          TRUE),
         fieldList(
-         field(name,
-          string,
+         field(id,
+          int,
           TRUE),
          fieldList())))),
      typeDecList())),
@@ -1919,13 +1919,13 @@ Parsing successful!
   seqExp(
    expList(
     opExp(
-     NOTEQUAL,
+     EQUAL,
      varExp(
       simpleVar(b)),
      nilExp()),
     expList(
      opExp(
-      EQUAL,
+      NOTEQUAL,
       varExp(
        simpleVar(b)),
       nilExp()),
@@ -2006,36 +2006,36 @@ Parsing successful!
      typeDec(intlist,
       recordType(
        fieldList(
-        field(tl,
-         intlist,
+        field(hd,
+         int,
          TRUE),
         fieldList(
-         field(hd,
-          int,
+         field(tl,
+          intlist,
           TRUE),
          fieldList())))),
      typeDecList(
       typeDec(tree,
        recordType(
         fieldList(
-         field(children,
-          treelist,
+         field(key,
+          int,
           TRUE),
          fieldList(
-          field(key,
-           int,
+          field(children,
+           treelist,
            TRUE),
           fieldList())))),
       typeDecList(
        typeDec(treelist,
         recordType(
          fieldList(
-          field(tl,
-           treelist,
+          field(hd,
+           tree,
            TRUE),
           fieldList(
-           field(hd,
-            tree,
+           field(tl,
+            treelist,
             TRUE),
            fieldList())))),
        typeDecList())))),
@@ -2044,11 +2044,11 @@ Parsing successful!
      intlist,
      recordExp(intlist,
       efieldList(
-       efield(tl,
-        nilExp()),
+       efield(hd,
+        intExp(0)),
        efieldList(
-        efield(hd,
-         intExp(0)),
+        efield(tl,
+         nilExp()),
         efieldList()))),
      TRUE),
     decList())),
@@ -2065,12 +2065,12 @@ Parsing successful!
     funDecList(
      funDec(do_nothing1,
       fieldList(
-       field(b,
-        string,
+       field(a,
+        int,
         TRUE),
        fieldList(
-        field(a,
-         int,
+        field(b,
+         string,
          TRUE),
         fieldList())),
       callExp(do_nothing2,
@@ -2090,10 +2090,10 @@ Parsing successful!
         fieldList()),
        callExp(do_nothing1,
         expList(
-         stringExp(str),
+         varExp(
+          simpleVar(d)),
          expList(
-          varExp(
-           simpleVar(d)),
+          stringExp(str),
           expList())))),
       funDecList()))),
    decList()),
@@ -2101,9 +2101,9 @@ Parsing successful!
    expList(
     callExp(do_nothing1,
      expList(
-      stringExp(str2),
+      intExp(0),
       expList(
-       intExp(0),
+       stringExp(str2),
        expList()))),
     expList())))
 testcases/test7.tig
@@ -2114,27 +2114,27 @@ Parsing successful!
     funDecList(
      funDec(do_nothing1,
       fieldList(
-       field(b,
-        string,
+       field(a,
+        int,
         TRUE),
        fieldList(
-        field(a,
-         int,
+        field(b,
+         string,
          TRUE),
         fieldList())),
       int,
       seqExp(
        expList(
-        intExp(0),
+        callExp(do_nothing2,
+         expList(
+          opExp(
+           PLUS,
+           varExp(
+            simpleVar(a)),
+           intExp(1)),
+          expList())),
         expList(
-         callExp(do_nothing2,
-          expList(
-           opExp(
-            PLUS,
-            varExp(
-             simpleVar(a)),
-            intExp(1)),
-           expList())),
+         intExp(0),
          expList())))),
      funDecList(
       funDec(do_nothing2,
@@ -2146,15 +2146,15 @@ Parsing successful!
        string,
        seqExp(
         expList(
-         stringExp( ),
-         expList(
-          callExp(do_nothing1,
+         callExp(do_nothing1,
+          expList(
+           varExp(
+            simpleVar(d)),
            expList(
             stringExp(str),
-            expList(
-             varExp(
-              simpleVar(d)),
-             expList()))),
+            expList()))),
+         expList(
+          stringExp( ),
           expList())))),
       funDecList()))),
    decList()),
@@ -2162,9 +2162,9 @@ Parsing successful!
    expList(
     callExp(do_nothing1,
      expList(
-      stringExp(str2),
+      intExp(0),
       expList(
-       intExp(0),
+       stringExp(str2),
        expList()))),
     expList())))
 testcases/test8.tig
